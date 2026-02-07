@@ -3,15 +3,21 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        File folder = new File("C:\\Users\\Marc\\IdeaProjects\\S1.05-Java.Utils");
+        File folder = new File("S1.05-Java.Utils");
         try {
             FileWriter writer = new FileWriter("output.txt");
             recursively(folder, writer);
             writer.close();
 
             read("output.txt");
-        } catch (IOException e) {
-            System.out.println("Error");
+
+            Person person = new Person("Marc", 33);
+            serializablePerson(person, "person.ser");
+            Person load = deserializePerson("person.ser");
+            System.out.println("Deserialize Object: " + load);
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
@@ -33,13 +39,14 @@ public class Main {
             }
         }
     }
-    public static void read(String path){
-        try{
+
+    public static void read(String path) {
+        try {
             FileReader fr = new FileReader(path);
             BufferedReader br = new BufferedReader(fr);
             String line;
 
-            while((line = br.readLine()) !=null){
+            while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
             br.close();
@@ -47,6 +54,24 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error read file: " + e.getMessage());
         }
+    }
+
+    public static void serializablePerson(Person person, String filePath) throws IOException {
+        FileOutputStream fo = new FileOutputStream(filePath);
+        ObjectOutputStream out = new ObjectOutputStream(fo);
+        out.writeObject(person);
+        out.close();
+        fo.close();
+        System.out.println("Serializable object saved in: " + filePath);
+    }
+
+    public static Person deserializePerson(String filePath) throws IOException, ClassNotFoundException {
+        FileInputStream fi = new FileInputStream(filePath);
+        ObjectInputStream in = new ObjectInputStream(fi);
+        Person person = (Person) in.readObject();
+        in.close();
+        fi.close();
+        return person;
     }
 }
 
