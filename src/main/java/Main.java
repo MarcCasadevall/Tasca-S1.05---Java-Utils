@@ -3,25 +3,28 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        File file = new File("C:\\Users\\Marc\\IdeaProjects\\");
-        File[] files = file.listFiles();
+        File folder = new File("C:\\Users\\Marc\\IdeaProjects\\");
 
+        recursively(folder);
+    }
 
-        if (files != null) {
-            Arrays.sort(files);
-            for (int i = 0; i < files.length; i++) {
-                File current = files[i];
+    public static void recursively(File folder) {
+        if (folder.exists()) {
+            File[] files = folder.listFiles();
 
-                System.out.println(current.getName());
-
-                if (current.isDirectory()) {
-                    System.out.println("Directory");
-                } else if (current.isFile()) {
-                    System.out.println("File");
+            if (files != null) {
+                Arrays.sort(files);
+                for (File f : files) {
+                    System.out.println(f.getName());
+                    if (f.isDirectory()) {
+                        System.out.println("Directory");
+                        recursively(f);
+                    } else if (f.isFile()) {
+                        System.out.println("File");
+                    }
                 }
             }
-        }else{
-            System.out.println("FilesNull");
         }
     }
 }
+
