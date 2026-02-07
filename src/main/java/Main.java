@@ -1,26 +1,34 @@
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        File folder = new File("C:\\Users\\Marc\\IdeaProjects\\");
-
-        recursively(folder);
+        File folder = new File("C:\\Users\\Marc\\IdeaProjects\\S1.05-Java.Utils");
+        try {
+            FileWriter writer = new FileWriter("output.txt");
+            recursively(folder, writer);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error");
+        }
     }
 
-    public static void recursively(File folder) {
+    public static void recursively(File folder, Writer writer) throws IOException {
         if (folder.exists()) {
             File[] files = folder.listFiles();
 
             if (files != null) {
                 Arrays.sort(files);
                 for (File f : files) {
-                    System.out.println(f.getName());
+
                     if (f.isDirectory()) {
-                        System.out.println("Directory");
-                        recursively(f);
+                        writer.write(f.getName() + " Directory\n");
+                        recursively(f, writer);
                     } else if (f.isFile()) {
-                        System.out.println("File");
+                        writer.write(f.getName() + " File\n");
                     }
                 }
             }
