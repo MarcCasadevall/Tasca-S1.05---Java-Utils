@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.util.Arrays;
 
 public class Main {
@@ -11,6 +8,8 @@ public class Main {
             FileWriter writer = new FileWriter("output.txt");
             recursively(folder, writer);
             writer.close();
+
+            read("output.txt");
         } catch (IOException e) {
             System.out.println("Error");
         }
@@ -32,6 +31,21 @@ public class Main {
                     }
                 }
             }
+        }
+    }
+    public static void read(String path){
+        try{
+            FileReader fr = new FileReader(path);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+
+            while((line = br.readLine()) !=null){
+                System.out.println(line);
+            }
+            br.close();
+            fr.close();
+        } catch (IOException e) {
+            System.out.println("Error read file: " + e.getMessage());
         }
     }
 }
