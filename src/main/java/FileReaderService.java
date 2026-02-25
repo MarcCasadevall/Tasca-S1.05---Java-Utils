@@ -4,18 +4,15 @@ import java.io.IOException;
 
 public class FileReaderService {
     public void readAndPrint(String path) {
-        try {
-            FileReader fileReader = new FileReader(path);
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(path))) {
+
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
                 System.out.println(line);
             }
-            bufferedReader.close();
-            fileReader.close();
         } catch (IOException e) {
-            System.out.println("Error read file: " + e.getMessage());
+            System.err.println("Error reading file: " + e.getMessage());
         }
     }
 }
