@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Date;
 
 public class DirectoryService {
     public void recursively(File folder, Writer writer) throws IOException {
@@ -14,12 +15,15 @@ public class DirectoryService {
 
         if (files != null) {
             Arrays.sort(files);
-            for (File f : files) {
-                String type = f.isDirectory() ? "[Directory]" : "[File]";
-                writer.write(f.getName() + " " + type + "\n");
 
-                if (f.isDirectory()) {
-                    recursively(f, writer);
+            for (File file : files) {
+                String fileType = file.isDirectory() ? "[Directory]" : "[File]";
+                Date lastModified = new Date(file.lastModified());
+
+                writer.write(file.getName() + " " + fileType + " " + lastModified + "\n");
+
+                if (file.isDirectory()) {
+                    recursively(file, writer);
                 }
             }
         }

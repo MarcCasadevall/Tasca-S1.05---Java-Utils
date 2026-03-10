@@ -3,10 +3,16 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
 
+        if (args.length == 0) {
+            System.out.println("Please provide a directory path.");
+            return;
+        }
+
         DirectoryService dirService = new DirectoryService();
         FileReaderService fileService = new FileReaderService();
         SerializationService serialService = new SerializationService();
-        File rootFolder = new File("S1.05-Java.Utils");
+
+        File rootFolder = new File(args[0]);
 
         try {
             try (FileWriter fileWriter = new FileWriter("output.txt")) {
